@@ -8,9 +8,9 @@ export class AppService {
     return {
       error: false,
       message:
-        'Bienvenido a PROYECT - API, basado ​​en principios REST, devuelve metadatos JSON - Copyright © Ing. Cristian Cueto Vargas',
+        'Bienvenido a DELTAX - TEST, basado ​​en principios REST, devuelve metadatos JSON - Copyright © Ing. Cristian Cueto Vargas',
       response: {
-        nameApp: 'PROYECT - API',
+        nameApp: 'DELTAX - TEST',
         version: '0.0.1',
         dateTimeServer: DateTime.now().toISO(),
       },

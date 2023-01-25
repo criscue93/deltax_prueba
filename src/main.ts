@@ -17,7 +17,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('PROYECT - API')
+    .setTitle('DELTAX - TEST')
     .addBearerAuth()
     .setDescription(
       'Basado en principios REST, las APIs devuelve metadatos JSON.',

@@ -1,11 +1,22 @@
 import { Module } from '@nestjs/common';
-import { connectProviders } from 'src/connection/connect.providers';
-import { DatabaseModule } from 'src/connection/database.module';
-import { queryService } from 'src/services/querys.service';
+import { CorreoController } from './prueba/prueba.controller';
+import { CorreoService } from './prueba/prueba.service';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Mail, MailSchema } from 'src/schemas/mail.schema';
 
 @Module({
-  imports: [DatabaseModule],
-  controllers: [],
-  providers: [...connectProviders, queryService],
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGO_MAIL),
+    MongooseModule.forFeature([
+      {
+        name: Mail.name,
+        schema: MailSchema,
+      },
+    ]),
+  ],
+  controllers: [CorreoController],
+  providers: [CorreoService],
 })
 export class ApiModule {}

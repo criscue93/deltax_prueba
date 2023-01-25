@@ -8,13 +8,16 @@ import { Mail, MailSchema } from 'src/schemas/mail.schema';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.MONGO_MAIL),
-    MongooseModule.forFeature([
-      {
-        name: Mail.name,
-        schema: MailSchema,
-      },
-    ]),
+    // MongooseModule.forRoot(process.env.MONGO_MAIL),
+    // MongooseModule.forFeature([
+    //   {
+    //     name: Mail.name,
+    //     schema: MailSchema,
+    //   },
+    // ]),
+    MongooseModule.forRoot(process.env.MONGO_MAIL, {
+      connectionName: 'test.cats',
+    }),
   ],
   controllers: [CorreoController],
   providers: [CorreoService],

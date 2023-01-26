@@ -1,166 +1,38 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Put,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CorreoService } from './prueba.service';
 import { Response } from 'express';
-import { correo, correoDTO } from './prueba.dto';
-import { validate } from 'class-validator';
 
-@ApiTags('MAIL')
+@ApiTags('PRUEBA')
 @Controller('api')
 export class CorreoController {
   constructor(private readonly correoService: CorreoService) {}
 
-  @Get('/mail/list')
-  @ApiOperation({ summary: 'Servicio para listar todos los correos.' })
-  async listMail(@Res() res: Response) {
+  @Get('/prueba/list/:limit/:order')
+  @ApiOperation({ summary: 'Servicio para listar todos los datos.' })
+  async list(
+    @Res() res: Response,
+    @Param('limit') limit: number,
+    @Param('order') order: any,
+  ) {
     let response = {
       error: true,
-      message: 'Existen problemas con el controlador listMail.',
+      message: 'Existen problemas con el controlador.',
       response: {},
       status: 422,
     };
 
     try {
-      response = await this.correoService.listMail();
+      response = await this.correoService.list(limit, order);
     } catch (error) {
       response.error = true;
       response.message = 'Error de validación.';
       response.response = {
-        errors: { mail: ['No se pudo extraer la lista de correos.'] },
+        errors: { data: ['No se pudo extraer los datos.'] },
       };
       response.status = 422;
     }
 
     return res.status(response.status).json(response);
   }
-
-  // @Post('/mail/insert')
-  // @ApiOperation({ summary: 'Servicio para insertar un correo.' })
-  // async insertMail(@Res() res: Response, @Body() body: correo) {
-  //   let response = {
-  //     error: true,
-  //     message: 'Existen problemas con el controlador insertMail.',
-  //     response: {},
-  //     status: 422,
-  //   };
-
-  //   const data = new correoDTO();
-  //   data.correo = body.correo;
-  //   data.password = body.password;
-
-  //   const valida = await validate(data);
-  //   if (valida.length > 0) {
-  //     const errorArray = valida.map((o) => ({
-  //       [o.property]: Object.values(o.constraints),
-  //     }));
-  //     let condi = 0;
-  //     let errors = [];
-
-  //     while (errorArray[condi] != undefined) {
-  //       errors = Object.assign(errors, errorArray[condi]);
-  //       condi++;
-  //     }
-
-  //     response.error = true;
-  //     response.message = 'Error de validación.';
-  //     response.response = { errors: { ...errors } };
-  //     response.status = 422;
-  //   } else {
-  //     try {
-  //       response = await this.correoService.insertMail(data);
-  //     } catch (error) {
-  //       response.error = true;
-  //       response.message = 'Error de validación.';
-  //       response.response = {
-  //         errors: { mail: ['No se pudo extraer la lista de correos.'] },
-  //       };
-  //       response.status = 422;
-  //     }
-  //   }
-
-  //   return res.status(response.status).json(response);
-  // }
-
-  // @Put('/mail/update/:id')
-  // @ApiOperation({ summary: 'Servicio para editar un correo.' })
-  // async updateMail(
-  //   @Res() res: Response,
-  //   @Body() body: correo,
-  //   @Param('id') id: string,
-  // ) {
-  //   let response = {
-  //     error: true,
-  //     message: 'Existen problemas con el controlador updateMail.',
-  //     response: {},
-  //     status: 422,
-  //   };
-
-  //   const data = new correoDTO();
-  //   data.correo = body.correo;
-  //   data.password = body.password;
-
-  //   const valida = await validate(data);
-  //   if (valida.length > 0) {
-  //     const errorArray = valida.map((o) => ({
-  //       [o.property]: Object.values(o.constraints),
-  //     }));
-  //     let condi = 0;
-  //     let errors = [];
-
-  //     while (errorArray[condi] != undefined) {
-  //       errors = Object.assign(errors, errorArray[condi]);
-  //       condi++;
-  //     }
-
-  //     response.error = true;
-  //     response.message = 'Error de validación.';
-  //     response.response = { errors: { ...errors } };
-  //     response.status = 422;
-  //   } else {
-  //     try {
-  //       response = await this.correoService.updateMail(id, data);
-  //     } catch (error) {
-  //       response.error = true;
-  //       response.message = 'Error de validación.';
-  //       response.response = {
-  //         errors: { mail: ['No se pudo extraer la lista de correos.'] },
-  //       };
-  //       response.status = 422;
-  //     }
-  //   }
-
-  //   return res.status(response.status).json(response);
-  // }
-
-  // @Patch('/mail/status/:id')
-  // @ApiOperation({ summary: 'Servicio para cambiar el estado de un correo.' })
-  // async statusMail(@Res() res: Response, @Param('id') id: string) {
-  //   let response = {
-  //     error: true,
-  //     message: 'Existen problemas con el controlador statusMail.',
-  //     response: {},
-  //     status: 422,
-  //   };
-  //   try {
-  //     response = await this.correoService.statusMail(id);
-  //   } catch (error) {
-  //     response.error = true;
-  //     response.message = 'Error de validación.';
-  //     response.response = {
-  //       errors: { mail: ['No se pudo extraer la lista de correos.'] },
-  //     };
-  //     response.status = 422;
-  //   }
-
-  //   return res.status(response.status).json(response);
-  // }
 }
